@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -25,6 +26,7 @@
 
   <style>
     * { box-sizing: border-box; }
+
     body {
       font-family: 'Assistant', sans-serif;
       min-height: 100vh;
@@ -32,16 +34,26 @@
       overflow-x: hidden;
       background: #d1dbe5;
     }
+
     .page-background {
-      position: fixed; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; object-position: center; z-index: 0;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
       pointer-events: none;
     }
+
     .background-overlay {
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background: rgba(220, 230, 240, .48);
-      z-index: 1; pointer-events: none;
+      z-index: 1;
+      pointer-events: none;
     }
+
     .inspo-card {
       background: rgba(212, 206, 232, .82);
       backdrop-filter: blur(10px);
@@ -51,137 +63,264 @@
       transition: transform .18s ease, box-shadow .18s ease;
       text-decoration: none;
     }
-    .inspo-card:active, .inspo-card.is-pressed {
+
+    .inspo-card:active,
+    .inspo-card.is-pressed {
       transform: scale(.975);
       box-shadow: 0 2px 7px rgba(35,55,75,.18);
     }
+
     @media (hover:hover) and (pointer:fine) {
-      .inspo-card:hover { box-shadow: 0 8px 20px rgba(35,55,75,.16); }
-      .emblem-trigger:hover { transform: scale(1.025); }
+      .inspo-card:hover {
+        box-shadow: 0 8px 20px rgba(35,55,75,.16);
+      }
+
+      .emblem-trigger:hover {
+        transform: scale(1.025);
+      }
     }
-    .link-icon-fallback { color: #536579; font-size: 1.15rem; }
+
+    .link-icon-fallback {
+      color: #536579;
+      font-size: 1.15rem;
+    }
+
     .emblem-trigger {
       transition: transform .2s ease;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,.1));
       -webkit-tap-highlight-color: transparent;
     }
-    .emblem-trigger:active { transform: scale(.96); }
-    .emblem-image {
-      width: 260px; max-width: 80vw; height: auto;
-      object-fit: contain; display: block;
+
+    .emblem-trigger:active {
+      transform: scale(.96);
     }
+
+    .emblem-image {
+      width: 260px;
+      max-width: 80vw;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
     #page-title {
       overflow-wrap: anywhere;
       text-shadow: 0 1px 1px rgba(255,255,255,.25);
     }
+
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .fade-in-up { animation: fadeInUp .55s cubic-bezier(.16,1,.3,1) forwards; }
-    #admin-modal { transition: opacity .25s ease; }
+
+    .fade-in-up {
+      animation: fadeInUp .55s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    #admin-modal {
+      transition: opacity .25s ease;
+    }
+
     .admin-input {
-      width: 100%; background: white; border: 1px solid #cbd5e1;
-      border-radius: 12px; padding: 9px 12px; font-size: 14px;
-      color: #334155; outline: none; transition: border .2s ease;
+      width: 100%;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 14px;
+      color: #334155;
+      outline: none;
+      transition: border .2s ease;
     }
+
     .admin-input:focus {
       border-color: #64748b;
       box-shadow: 0 0 0 2px rgba(100,116,139,.12);
     }
-    .admin-button { transition: transform .15s ease, background .2s ease; }
-    .admin-button:active { transform: scale(.96); }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-thumb { background: rgba(83,107,131,.4); border-radius: 10px; }
+
+    .admin-button {
+      transition: transform .15s ease, background .2s ease;
+    }
+
+    .admin-button:active {
+      transform: scale(.96);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(83,107,131,.4);
+      border-radius: 10px;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
 
 <body class="relative select-none">
+
   <div class="fixed inset-0 w-full h-full pointer-events-none z-0">
-    <!-- יש לשמור את תמונת הרקע בתיקייה asset בשם המקורי -->
     <img src="asset/גדוד 906 “שעולי הנגב” (2).png" alt="" class="page-background">
     <div class="background-overlay"></div>
   </div>
 
   <div class="relative z-10 w-full max-w-md mx-auto min-h-screen px-5 py-8 flex flex-col justify-between">
+
     <header class="flex flex-col items-center text-center mt-2 fade-in-up" style="animation-delay:.1s">
-      <button
+
+      <!-- סמל הגדוד: לחיץ באתר המקורי ולא לחיץ בקישור שיתוף -->
+      <div
         id="admin-trigger"
-        type="button"
+        class="emblem-trigger p-1 rounded-3xl relative"
+        role="button"
+        tabindex="0"
         onclick="toggleAdminModal()"
-        class="emblem-trigger cursor-pointer focus:outline-none p-1 rounded-3xl relative"
+        onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleAdminModal(); }"
         title="לחץ לעריכת העמוד"
         aria-label="עריכת העמוד"
       >
-        <!-- יש לשמור את סמל הגדוד בתיקייה asset בשם המקורי -->
-        <img src="asset/image-removebg-preview (2).png" alt="סמל גדוד 906 - שועלי הנגב" class="emblem-image">
-      </button>
+        <img
+          src="asset/image-removebg-preview (2).png"
+          alt="סמל גדוד 906 - שועלי הנגב"
+          class="emblem-image"
+        >
+      </div>
 
       <h1 id="page-title" class="mt-3 text-2xl sm:text-3xl font-bold text-slate-800 font-rubik text-center tracking-wide">
         גדוד 906 – שועלי הנגב
       </h1>
+
     </header>
 
     <main id="links-container" class="flex-1 flex flex-col justify-center gap-4 my-6"></main>
 
     <footer class="text-center mb-1 fade-in-up" style="animation-delay:.4s">
-      <p class="text-xs font-semibold text-slate-600/90 tracking-wider font-rubik">גדוד 906 • שועלי הנגב</p>
+      <p class="text-xs font-semibold text-slate-600/90 tracking-wider font-rubik">
+        גדוד 906 • שועלי הנגב
+      </p>
     </footer>
+
   </div>
 
   <!-- חלון ניהול -->
   <div id="admin-modal" class="fixed inset-0 z-50 bg-slate-950/65 backdrop-blur-md flex items-center justify-center p-4 hidden opacity-0">
+
     <div class="bg-white/95 border border-slate-200 rounded-3xl p-5 sm:p-6 w-full max-w-md shadow-2xl flex flex-col max-h-[90vh] text-right">
+
       <div class="flex justify-between items-center border-b border-gray-100 pb-3.5 mb-4">
+
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center text-base font-bold shadow-sm">
             <i class="fa-solid fa-pen-to-square"></i>
           </div>
+
           <div>
             <h2 class="text-lg font-bold text-gray-900 font-rubik">עריכת העמוד</h2>
             <p class="text-xs text-gray-500">עריכת הכותרת, הקישורים ושיתוף העמוד</p>
           </div>
         </div>
-        <button type="button" onclick="toggleAdminModal()" class="text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center transition admin-button" aria-label="סגור">
+
+        <button
+          type="button"
+          onclick="toggleAdminModal()"
+          class="text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center transition admin-button"
+          aria-label="סגור"
+        >
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
+
       </div>
 
       <div class="overflow-y-auto pr-1 flex-1">
+
         <section class="mb-4 bg-slate-50 border border-slate-200 p-3 rounded-2xl">
-          <label for="admin-page-title" class="block text-xs font-bold text-slate-600 mb-2">כותרת מתחת לסמל</label>
-          <input id="admin-page-title" type="text" class="admin-input font-rubik" maxlength="100" placeholder="לדוגמה: גדוד 906 – שועלי הנגב">
+          <label for="admin-page-title" class="block text-xs font-bold text-slate-600 mb-2">
+            כותרת מתחת לסמל
+          </label>
+
+          <input
+            id="admin-page-title"
+            type="text"
+            class="admin-input font-rubik"
+            maxlength="100"
+            placeholder="לדוגמה: גדוד 906 – שועלי הנגב"
+          >
         </section>
 
         <div id="admin-links-list" class="space-y-3.5 mb-4"></div>
+
       </div>
 
       <div class="pt-3.5 border-t border-gray-100 flex flex-wrap justify-between items-center gap-2">
-        <button type="button" onclick="addNewLink()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition admin-button">
-          <i class="fa-solid fa-plus"></i> הוסף כפתור
+
+        <button
+          type="button"
+          onclick="addNewLink()"
+          class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition admin-button"
+        >
+          <i class="fa-solid fa-plus"></i>
+          הוסף כפתור
         </button>
+
         <div class="flex flex-wrap gap-2">
-          <button type="button" onclick="resetToDefaults()" class="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-semibold transition admin-button">איפוס</button>
-          <button type="button" onclick="saveAdminChanges()" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition admin-button">שמור שינויים</button>
+
+          <button
+            type="button"
+            onclick="resetToDefaults()"
+            class="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-semibold transition admin-button"
+          >
+            איפוס
+          </button>
+
+          <button
+            type="button"
+            onclick="saveAdminChanges()"
+            class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition admin-button"
+          >
+            שמור שינויים
+          </button>
+
         </div>
       </div>
 
       <div class="mt-3">
-        <button type="button" onclick="sharePage()" class="w-full px-4 py-3 rounded-xl bg-sky-100 hover:bg-sky-200 text-slate-800 font-bold text-sm transition admin-button flex items-center justify-center gap-2">
+
+        <button
+          type="button"
+          onclick="sharePage()"
+          class="w-full px-4 py-3 rounded-xl bg-sky-100 hover:bg-sky-200 text-slate-800 font-bold text-sm transition admin-button flex items-center justify-center gap-2"
+        >
           <i class="fa-solid fa-share-nodes"></i>
           העתקת קישור לאתר עם השינויים
         </button>
-        <p class="text-[11px] text-slate-500 text-center mt-2 leading-5">
-          <!-- הקישור יכלול את הכותרת והקישורים שהגדרת. כדי לשלוח אותו לאחרים, האתר צריך להיות מפורסם באינטרנט. -->
-        </p>
+
+        <p class="text-[11px] text-slate-500 text-center mt-2 leading-5"></p>
+
       </div>
+
     </div>
   </div>
 
-  <div id="toast" role="status" aria-live="polite" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-slate-900/90 text-white px-5 py-2.5 rounded-full shadow-2xl text-xs font-semibold opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2 whitespace-nowrap">
+  <!-- הודעת אישור -->
+  <div
+    id="toast"
+    role="status"
+    aria-live="polite"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-slate-900/90 text-white px-5 py-2.5 rounded-full shadow-2xl text-xs font-semibold opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2 whitespace-nowrap"
+  >
     <i class="fa-solid fa-circle-check text-slate-300"></i>
     <span id="toast-text">השינויים נשמרו בהצלחה</span>
   </div>
@@ -204,41 +343,66 @@
       return defaultLinks.map(link => ({ ...link }));
     }
 
-    // טוען קודם נתונים מקישור שיתוף, ואם אין כאלה - מהדפדפן הנוכחי.
+    // טעינת נתונים
     function loadLinks() {
+
       const sharedData = readShareData();
       isSharedView = Boolean(sharedData);
 
-      // בקישור שיתוף מציגים מצב צפייה בלבד ומסתירים את כפתור הניהול.
       const adminTrigger = document.getElementById('admin-trigger');
+
       if (adminTrigger && isSharedView) {
-        adminTrigger.hidden = true;
-        adminTrigger.disabled = true;
-        adminTrigger.setAttribute('aria-hidden', 'true');
+
+        // התמונה נשארת מוצגת, אך אינה לחיצה.
         adminTrigger.removeAttribute('onclick');
+        adminTrigger.removeAttribute('onkeydown');
+        adminTrigger.removeAttribute('role');
+        adminTrigger.removeAttribute('tabindex');
+        adminTrigger.removeAttribute('title');
+        adminTrigger.removeAttribute('aria-label');
+
+        adminTrigger.style.cursor = 'default';
+        adminTrigger.style.pointerEvents = 'none';
       }
 
       if (sharedData) {
-        pageTitle = typeof sharedData.title === 'string' ? sharedData.title : defaultTitle;
+
+        pageTitle = typeof sharedData.title === 'string'
+          ? sharedData.title
+          : defaultTitle;
+
         links = normalizeLinks(sharedData.links);
+
       } else {
+
         try {
+
           const savedLinks = localStorage.getItem('shualei_906_inspo_links');
           const savedTitle = localStorage.getItem('shualei_906_page_title');
 
-          links = savedLinks ? normalizeLinks(JSON.parse(savedLinks)) : cloneDefaults();
-          pageTitle = savedTitle !== null ? savedTitle : defaultTitle;
+          links = savedLinks
+            ? normalizeLinks(JSON.parse(savedLinks))
+            : cloneDefaults();
+
+          pageTitle = savedTitle !== null
+            ? savedTitle
+            : defaultTitle;
+
         } catch (error) {
+
           links = cloneDefaults();
           pageTitle = defaultTitle;
+
         }
       }
 
       document.getElementById('page-title').textContent = pageTitle;
+
       renderMainLinks();
     }
 
     function normalizeLinks(value) {
+
       if (!Array.isArray(value)) return cloneDefaults();
 
       return value.map((link, index) => ({
@@ -246,53 +410,81 @@
         title: String(link.title || ''),
         url: String(link.url || '')
       }));
+
     }
 
+    // הצגת הקישורים
     function renderMainLinks() {
+
       const container = document.getElementById('links-container');
+
       container.innerHTML = '';
 
       if (links.length === 0) {
+
         const empty = document.createElement('div');
+
         empty.className = 'text-center p-6 text-slate-700 bg-white/40 backdrop-blur-sm rounded-2xl border border-dashed border-slate-400';
+
         empty.textContent = 'אין קישורים מוצגים כרגע. לחץ על הסמל למעלה להוספה.';
+
         container.appendChild(empty);
+
         return;
       }
 
       links.forEach((link, index) => {
+
         const anchor = document.createElement('a');
+
         anchor.href = link.url || '#';
         anchor.target = '_blank';
         anchor.rel = 'noopener noreferrer';
+
         anchor.className = 'inspo-card relative w-full min-h-20 rounded-2xl flex items-center overflow-hidden cursor-pointer fade-in-up group';
+
         anchor.style.animationDelay = `${0.12 + index * 0.08}s`;
 
         const iconWrap = document.createElement('div');
+
         iconWrap.className = 'w-16 min-h-20 flex items-center justify-center shrink-0';
+
         const icon = document.createElement('i');
+
         icon.className = 'fa-solid fa-link link-icon-fallback';
+
         iconWrap.appendChild(icon);
 
         const divider = document.createElement('div');
+
         divider.className = 'w-px h-10 bg-slate-400/40 shrink-0';
 
         const content = document.createElement('div');
+
         content.className = 'flex-1 min-w-0 px-4 text-right flex items-center justify-between gap-3';
 
         const title = document.createElement('span');
+
         title.className = 'text-base sm:text-lg font-bold text-slate-800 tracking-wide font-rubik break-words';
+
         title.textContent = link.title || 'קישור';
 
         const chevron = document.createElement('i');
+
         chevron.className = 'fa-solid fa-chevron-left text-sm text-slate-500 opacity-70 shrink-0';
 
         content.append(title, chevron);
+
         anchor.append(iconWrap, divider, content);
 
-        anchor.addEventListener('pointerdown', () => anchor.classList.add('is-pressed'));
+        anchor.addEventListener('pointerdown', () => {
+          anchor.classList.add('is-pressed');
+        });
+
         ['pointerup', 'pointercancel', 'pointerleave'].forEach(eventName => {
-          anchor.addEventListener(eventName, () => anchor.classList.remove('is-pressed'));
+          anchor.addEventListener(eventName, () => {
+            anchor.classList.remove('is-pressed');
+          });
         });
 
         if (!link.url) {
@@ -300,211 +492,358 @@
         }
 
         container.appendChild(anchor);
+
       });
+
     }
 
+    // יצירת רשימת עריכה
     function renderAdminList() {
+
       const list = document.getElementById('admin-links-list');
+
       list.innerHTML = '';
 
       links.forEach((link, index) => {
+
         const card = document.createElement('div');
+
         card.className = 'bg-slate-50 border border-slate-200 p-3 rounded-2xl flex flex-col gap-2';
 
         const top = document.createElement('div');
+
         top.className = 'flex justify-between items-center text-xs font-bold text-slate-500';
 
         const label = document.createElement('span');
+
         label.textContent = `כפתור ${index + 1}`;
 
         const remove = document.createElement('button');
+
         remove.type = 'button';
         remove.className = 'text-red-500 hover:text-red-700 p-1 rounded-lg hover:bg-red-50 transition admin-button';
         remove.title = 'מחק';
         remove.setAttribute('aria-label', `מחק כפתור ${index + 1}`);
         remove.innerHTML = '<i class="fa-solid fa-trash-can text-sm"></i>';
+
         remove.addEventListener('click', () => removeLink(index));
 
         top.append(label, remove);
 
         const fields = document.createElement('div');
+
         fields.className = 'space-y-1.5';
 
         const titleInput = document.createElement('input');
+
         titleInput.type = 'text';
         titleInput.className = 'admin-input font-rubik';
         titleInput.placeholder = 'שם הכפתור';
         titleInput.maxLength = 100;
         titleInput.value = link.title;
-        titleInput.addEventListener('input', event => updateData(index, 'title', event.target.value));
+
+        titleInput.addEventListener('input', event => {
+          updateData(index, 'title', event.target.value);
+        });
 
         const urlInput = document.createElement('input');
+
         urlInput.type = 'url';
         urlInput.className = 'admin-input';
         urlInput.placeholder = 'קישור ליעד (https://...)';
         urlInput.dir = 'ltr';
         urlInput.value = link.url;
-        urlInput.addEventListener('input', event => updateData(index, 'url', event.target.value.trim()));
+
+        urlInput.addEventListener('input', event => {
+          updateData(index, 'url', event.target.value.trim());
+        });
 
         fields.append(titleInput, urlInput);
+
         card.append(top, fields);
+
         list.appendChild(card);
+
       });
+
     }
 
     function updateData(index, key, value) {
-      if (links[index]) links[index][key] = value;
+
+      if (links[index]) {
+        links[index][key] = value;
+      }
+
     }
 
     function addNewLink() {
-      links.push({ id: Date.now().toString(), title: 'כפתור חדש', url: '' });
+
+      links.push({
+        id: Date.now().toString(),
+        title: 'כפתור חדש',
+        url: ''
+      });
+
       renderAdminList();
-      document.getElementById('admin-links-list').lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      document.getElementById('admin-links-list').lastElementChild?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+
     }
 
     function removeLink(index) {
+
       links.splice(index, 1);
+
       renderAdminList();
+
     }
 
     function resetToDefaults() {
+
       if (!confirm('להחזיר את הכותרת והקישורים לברירת המחדל?')) return;
+
       pageTitle = defaultTitle;
+
       links = cloneDefaults();
+
       document.getElementById('admin-page-title').value = pageTitle;
+
       renderAdminList();
+
       saveAdminChanges();
+
     }
 
+    // שמירת שינויים
     function saveAdminChanges() {
+
       if (isSharedView) return;
 
       const titleInput = document.getElementById('admin-page-title');
+
       const newTitle = titleInput.value.trim();
 
       if (!newTitle) {
+
         alert('יש להזין כותרת לעמוד.');
+
         titleInput.focus();
+
         return;
       }
 
-      const invalidLink = links.find(link => link.url && !/^https?:\/\/\S+$/i.test(link.url));
+      const invalidLink = links.find(link =>
+        link.url && !/^https?:\/\/\S+$/i.test(link.url)
+      );
+
       if (invalidLink) {
+
         alert('אחת הכתובות אינה תקינה. יש להזין קישור שמתחיל ב-https:// או http://');
+
         return;
       }
 
       pageTitle = newTitle;
+
       document.getElementById('page-title').textContent = pageTitle;
 
       try {
+
         localStorage.setItem('shualei_906_inspo_links', JSON.stringify(links));
+
         localStorage.setItem('shualei_906_page_title', pageTitle);
+
       } catch (error) {
-        // גם אם אחסון מקומי חסום, ניתן עדיין להשתמש בקישור השיתוף.
+        // המשך עבודה גם אם האחסון המקומי אינו זמין.
       }
 
       renderMainLinks();
+
       updateShareHash();
+
       closeAdminModal();
+
       showToast('השינויים נשמרו במכשיר הזה');
+
     }
 
+    // פתיחה וסגירה של ממשק הניהול
     function toggleAdminModal() {
-      // הגנה על ממשק הניהול בקישורי שיתוף: מצב צפייה בלבד.
+
       if (isSharedView) return;
 
       const modal = document.getElementById('admin-modal');
+
       if (modal.classList.contains('hidden')) {
+
         document.getElementById('admin-page-title').value = pageTitle;
+
         renderAdminList();
+
         modal.classList.remove('hidden');
-        requestAnimationFrame(() => modal.classList.remove('opacity-0'));
+
+        requestAnimationFrame(() => {
+          modal.classList.remove('opacity-0');
+        });
+
       } else {
+
         closeAdminModal();
+
       }
+
     }
 
     function closeAdminModal() {
+
       const modal = document.getElementById('admin-modal');
+
       modal.classList.add('opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 250);
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 250);
+
     }
 
+    // יצירת קישור שיתוף הכולל את כל הנתונים
     function makeShareUrl() {
-      const data = { title: pageTitle, links: links };
-      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+
+      const data = {
+        title: pageTitle,
+        links: links
+      };
+
+      const encoded = btoa(
+        unescape(encodeURIComponent(JSON.stringify(data)))
+      );
+
       return `${window.location.href.split('#')[0]}#share=${encoded}`;
+
     }
 
     function updateShareHash() {
+
       const url = makeShareUrl();
+
       history.replaceState(null, '', url);
+
     }
 
+    // העתקת קישור שיתוף
     async function sharePage() {
+
       if (isSharedView) return;
 
       const titleInput = document.getElementById('admin-page-title');
+
       const draftTitle = titleInput.value.trim();
 
       if (!draftTitle) {
+
         alert('יש להזין כותרת לפני יצירת קישור.');
+
         titleInput.focus();
+
         return;
       }
 
-      const invalidLink = links.find(link => link.url && !/^https?:\/\/\S+$/i.test(link.url));
+      const invalidLink = links.find(link =>
+        link.url && !/^https?:\/\/\S+$/i.test(link.url)
+      );
+
       if (invalidLink) {
+
         alert('יש לתקן את כתובת הקישור שאינה תקינה לפני השיתוף.');
+
         return;
       }
 
       pageTitle = draftTitle;
+
       document.getElementById('page-title').textContent = pageTitle;
 
-      // הקישור כולל גם שינויים שעדיין לא נשמרו בכפתור "שמור שינויים".
       const shareUrl = makeShareUrl();
 
       try {
+
         await navigator.clipboard.writeText(shareUrl);
+
         showToast('קישור השיתוף הועתק!');
+
       } catch (error) {
+
         window.prompt('העתיקי את הקישור הבא:', shareUrl);
+
       }
+
     }
 
+    // קריאת נתונים מקישור שיתוף
     function readShareData() {
+
       const match = window.location.hash.match(/(?:^#|&)share=([^&]+)/);
+
       if (!match) return null;
 
       try {
+
         const json = decodeURIComponent(escape(atob(match[1])));
+
         const data = JSON.parse(json);
+
         if (!data || !Array.isArray(data.links)) return null;
+
         return data;
+
       } catch (error) {
+
         return null;
+
       }
+
     }
 
+    // הודעות מערכת
     function showToast(message) {
+
       const toast = document.getElementById('toast');
+
       document.getElementById('toast-text').textContent = message;
+
       toast.classList.remove('opacity-0');
+
       clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => toast.classList.add('opacity-0'), 2600);
+
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('opacity-0');
+      }, 2600);
+
     }
 
-    // סגירה בלחיצה על הרקע או במקש Escape.
+    // סגירה בלחיצה על הרקע או במקש Escape
     document.getElementById('admin-modal').addEventListener('click', event => {
-      if (event.target.id === 'admin-modal') closeAdminModal();
+
+      if (event.target.id === 'admin-modal') {
+        closeAdminModal();
+      }
+
     });
+
     document.addEventListener('keydown', event => {
-      if (event.key === 'Escape') closeAdminModal();
+
+      if (event.key === 'Escape') {
+        closeAdminModal();
+      }
+
     });
 
     window.addEventListener('DOMContentLoaded', loadLinks);
+
   </script>
+
 </body>
 </html>
